@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { renderToNodeStream } from "react-dom/server";
 
 //create your first component
@@ -9,29 +9,42 @@ const Home = () => {
 
 	const [groceries, setGroceries] = useState([]);
 	const [userInput, setUserInput] = useState("");
-	// item = dressing
+
+	
+
+
+	useEffect(() =>{
+		getUser()
+	}, [])
 	const addToList = (e) => {
-		e.preventDefault();
-		let grocery = {value: userInput, bought: false}
-			setGroceries([...groceries, grocery]);
-		//with spread operator = ["apples","bananas","corn"], "dressing"
-		//without spread = ["apples","bananas","corn", "dressing"]
-		setUserInput("")
-	}
+		
+	};
 	console.log(groceries)
 	
 	const updateBoughtItem = (index) => {
-		let thisGrocery = groceries
-		let groceryList = groceryList[index];
-		thisGrocery.bought = true; 
-		setGroceries(groceryList);
-	}
+		
+	};
 
 	const removeGrocery = (i) => {
-		const newArray = groceries.filter((grocery,index) => index !== i);
-		setGroceries(newArray);
-	}
+		
+	};
 
+	const getUser = async() =>{
+		let repsonse = await fetch('https://playground.4geeks.com/todo/users/ByronRolle')
+		let data = await repsonse.json()
+		if(typeof data.name != 'undefined') {
+			setGroceries(data.todos)
+			console.log(data.name)
+		}
+		else if (typeof data.detail != 'undefined ') {
+			let repsonse = await fetch('https://playground.4geeks.com/todo/users/ByronRolle',{
+				method: "POST",
+				headers: {"Content-type": "application/json"},
+
+			})
+			let data = await repsonse.json()
+		}
+	}
 	return (
 		<div className="text-center mt-5 h-100">
 			<input
